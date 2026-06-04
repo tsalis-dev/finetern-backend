@@ -22,6 +22,15 @@ Route::get('/migrate-db', function () {
     return response()->json(['message' => 'Database migrated and seeded successfully!']);
 });
 
+Route::get('/test-db', function () {
+    try {
+        \Illuminate\Support\Facades\DB::connection()->getPdo();
+        return response()->json(['status' => 'success', 'message' => 'Terkoneksi ke database Supabase!']);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+    }
+});
+
 use App\Http\Controllers\AuthController;
 
 Route::post('/register', [AuthController::class, 'register']);
