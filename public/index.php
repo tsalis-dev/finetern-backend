@@ -10,12 +10,19 @@ if (isset($_SERVER['REQUEST_URI'])) {
     if (strpos($_SERVER['REQUEST_URI'], '/api/test-db') !== false) {
         die(json_encode(['status' => 'success', 'message' => 'Native PHP on Vercel is working!']));
     }
-    if (strpos($_SERVER['REQUEST_URI'], '/api/migrate-db') !== false) {
+    if (strpos($_SERVER['REQUEST_URI'], '/api/migrate-only') !== false) {
         require __DIR__.'/../vendor/autoload.php';
         $app = require_once __DIR__.'/../bootstrap/app.php';
         $consoleKernel = $app->make(\Illuminate\Contracts\Console\Kernel::class);
-        $consoleKernel->call('migrate:fresh', ['--seed' => true, '--force' => true]);
-        die(json_encode(['status' => 'success', 'message' => 'Migrasi Native berhasil!']));
+        $consoleKernel->call('migrate:fresh', ['--force' => true]);
+        die(json_encode(['status' => 'success', 'message' => 'Tabel berhasil dibuat (tanpa data dummy)!']));
+    }
+    if (strpos($_SERVER['REQUEST_URI'], '/api/seed-only') !== false) {
+        require __DIR__.'/../vendor/autoload.php';
+        $app = require_once __DIR__.'/../bootstrap/app.php';
+        $consoleKernel = $app->make(\Illuminate\Contracts\Console\Kernel::class);
+        $consoleKernel->call('db:seed', ['--force' => true]);
+        die(json_encode(['status' => 'success', 'message' => 'Data dummy berhasil dimasukkan!']));
     }
 }
 
