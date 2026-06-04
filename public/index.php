@@ -13,8 +13,8 @@ if (isset($_SERVER['REQUEST_URI'])) {
     if (strpos($_SERVER['REQUEST_URI'], '/api/migrate-db') !== false) {
         require __DIR__.'/../vendor/autoload.php';
         $app = require_once __DIR__.'/../bootstrap/app.php';
-        $kernel = $app->make(Kernel::class);
-        $kernel->call('migrate:fresh', ['--seed' => true, '--force' => true]);
+        $consoleKernel = $app->make(\Illuminate\Contracts\Console\Kernel::class);
+        $consoleKernel->call('migrate:fresh', ['--seed' => true, '--force' => true]);
         die(json_encode(['status' => 'success', 'message' => 'Migrasi Native berhasil!']));
     }
 }
