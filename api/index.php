@@ -15,6 +15,10 @@ if (isset($_SERVER['VERCEL_URL']) || isset($_ENV['VERCEL'])) {
             mkdir($path, 0777, true);
         }
     }
+    
+    // Fix routing paths for Laravel on Vercel
+    $_SERVER['SCRIPT_NAME'] = '/index.php';
+    $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/../public/index.php';
 }
 
 require __DIR__ . '/../public/index.php';
