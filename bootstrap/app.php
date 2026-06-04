@@ -15,6 +15,11 @@ $app = new Illuminate\Foundation\Application(
     $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
 );
 
+if (isset($_SERVER['VERCEL_URL']) || isset($_ENV['VERCEL'])) {
+    $app->useStoragePath('/tmp/storage');
+    $app->useBootstrapPath('/tmp/bootstrap');
+}
+
 /*
 |--------------------------------------------------------------------------
 | Bind Important Interfaces
