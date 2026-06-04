@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/migrate-db', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate:fresh', [
+        '--seed' => true,
+        '--force' => true
+    ]);
+    return response()->json(['message' => 'Database migrated and seeded successfully!']);
+});
+
 use App\Http\Controllers\AuthController;
 
 Route::post('/register', [AuthController::class, 'register']);
